@@ -1,0 +1,28 @@
+
+// Up to you:
+$smallDeviceMaxWidth  : 40em;
+$mediumDeviceMaxWidth : 80em;
+$largeDeviceMaxWidth  : 100em;
+
+
+// Expose Media Query Breakpoints to Javascript, allowing us to only need to define them in css instead of having to replicate them in JS too.
+// See breakpoints.js for more info - It measures $('HEAD').css('fontFamily') to derive small/medium/large etc.
+// Use with respond.js to make use of this Media Query technique in IE6-8 etc.
+//
+// Sample usage:
+//   var currentDisplayType = $('HEAD').css('fontFamily')                   // Eg: "medium"
+//   var allTypes           = $('HEAD *').css('fontFamily').split(/,\s*/)   // Eg: ["defaultdisplay", "small", "medium", "large", "giant"]
+
+
+/* Define the names of all our breakpoints: */
+// (Not required but useful to produce a hash of possible breakpoints and their current state by iterating through this list)
+HEAD * { font-family: "breakpoints","small","medium","large","giant"; }
+
+// Detect "current" display name using mediaqueries: (Javascript can read this to find out currently applicable display)
+/* When media-queries not supported: */ 
+                                            HEAD { font-family: 'breakpoints'; } // Eg: IE6-8 without respondjs will see .no-breakpoints class on HTML element.
+/* Otherwise when media-queries are supported: */ 
+@media (min-width: $largeDeviceMaxWidth ) { HEAD { font-family: "giant";  } }    // Eg: Large desktop
+@media (max-width: $largeDeviceMaxWidth ) { HEAD { font-family: "large";  } }    // Eg: Small desktop
+@media (max-width: $mediumDeviceMaxWidth) { HEAD { font-family: "medium"; } }    // Eg: Tablet
+@media (max-width: $smallDeviceMaxWidth ) { HEAD { font-family: "small";  } }    // Eg: Phone

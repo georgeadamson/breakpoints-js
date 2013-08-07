@@ -1,0 +1,11 @@
+/* Define the names of all our breakpoints: */
+HEAD * { font-family: "breakpoints","small","medium","large","giant"; }
+
+/* When media-queries not supported: */
+HEAD { font-family: 'breakpoints'; }
+
+/* Otherwise when media-queries are supported: */
+@media (min-width: 100em) { HEAD { font-family: "giant"; } }
+@media (max-width: 100em) { HEAD { font-family: "large"; } }
+@media (max-width: 80em) { HEAD { font-family: "medium"; } }
+@media (max-width: 40em) { HEAD { font-family: "small"; } }
