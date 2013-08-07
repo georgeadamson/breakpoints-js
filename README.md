@@ -12,3 +12,5 @@ IMPORTANT: Must be used with breakpoints.scss.
            Use with respond.js to use this Media Query technique in IE6-8 etc.
 
 By George Adamson - https://github.com/georgeadamson/breakpoints-js
+
+The file you need are in the /src folder.
