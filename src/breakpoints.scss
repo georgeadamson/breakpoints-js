@@ -13,13 +13,13 @@ $largeDeviceMaxWidth  : 100em;
 
 /* Define the names of all our breakpoints: */
 // (Not required but useful to produce a hash of possible breakpoints and their current state by iterating through this list)
-HEAD * { font-family: "breakpoints","small","medium","large","giant"; }
+HEAD * { font-family: "defaultbreakpoint","small","medium","large","giant"; }
 
 // Detect "current" display name using mediaqueries: (Javascript can read this to find out currently applicable display)
 
 /* When media-queries not supported: */
 // Eg: IE6-8 without respondjs will see .no-breakpoints class on HTML element.
-HEAD { font-family: 'breakpoints'; }
+HEAD { font-family: 'defaultbreakpoint'; }
 
 /* Otherwise when media-queries are supported: */ 
 @media (min-width: $largeDeviceMaxWidth ) { HEAD { font-family: "giant";  } }    // Eg: Large desktop
