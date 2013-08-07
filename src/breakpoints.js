@@ -39,8 +39,8 @@
 
     // Helper to build a hash of breakpoint names. Used by detectBreakpoint(). The currently detected display will have a true value, the others false:
       , mapBreakpoints = function( names, current ){
-          var name, result = { current: current }
-          for( name in names ){ result[name] = ( name === current ) }
+          var name, result = { current: current }, total = names.length, i = 0
+          for( ; i<total; i++ ){ name = names[i]; result[name] = ( name === current ) }
           return result
         }
 
@@ -63,7 +63,7 @@
       // Media Queries will set the name of the current breakpoint as a fake fontFamily on the hidden HEAD element. We simply read the corresponding values:
       var head     = document.getElementsByTagName('head')[0]
         , current  = getFontOf( head ) || stylesMissing               // Read currently applicable display type: (We rely on this to vary, depending on which mediaquery is being applied right now)
-        , names    = getFontOf( $(head).children() ).split(/\s*,\s*/) // Read list of all possible display variants defined in css so we can iterate through them: (See detect-display.scss for definition of these values)
+        , names    = getFontOf( $(head).children() ).split(/\s*,\s*/) // Derive array of all possible display variants defined in css so we can iterate through them: (See detect-display.scss for definition of these values)
         , detected = mapBreakpoints( names, current )                 // Populate new breakpoints hash with a key for each of the breakpoint names defined in the css.
         , total    = names.length
         , i        = 0
