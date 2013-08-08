@@ -1,11 +1,61 @@
 <html>
 
   <head>
-  
+    <!-- You need this one to define your breakpoints: -->
+    <link rel="stylesheet" href="css/breakpoints.css">
+    <!-- We only need this one for this demo: -->
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
   </head>
   
   <body>
     
-  </body>
+    <h1>Breakpoints.js Demo</h1>
+
+    <small>Resize your browser to see these values change</small>
+
+    <div class="well">
+
+      <p>Current breakpoint is: <em id="currentBreakpoint">Dunno yet</em><p>
+      <p>Previous breakpoint was: <em id="previousBreakpoint">Dunno yet</em><p>
+      <p>These breakpoints are defined in the CSS: <em id="cssBreakpoints">Dunno yet</em><p>
+      <p>The window.breakpoints property looks like this: <em id="breakpointsObject">Dunno yet</em><p>
+      <p>These classes have been added to the &lt;html&gt; element: &quot;<em id="htmlClasses">Dunno yet</em>&quot;<p>
   
+    </div>
+
+    <!-- You need these if you want to use the breakpoints object or the breakpoint event: -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="src/breakpoints.min.js"></script>
+    
+    <!-- We only need this for the demo in old IE: -->
+    <!--[if lt IE 8]><script src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.min.js"></script><![endif]-->
+
+    <script>
+
+      // Initialise fields when page is ready:
+      $(function(){
+
+        $('#cssBreakpoints'   ).text( $('HEAD *').css('fontFamily') )
+        $('#breakpointsObject').text( JSON.stringify(window.breakpoints) )
+        $('#htmlClasses'      ).text( $('HTML').attr('class') )
+        $('#currentBreakpoint').text( window.breakpoints.current )
+
+      })
+
+      // Update ui whenever our custom *breakpoint* event fires:
+      $(window).on( 'breakpoint', function( e, current, previous ){
+
+        if( window.console ){ console.log( e, current, previous ) }
+
+        $('#breakpointsObject' ).text( JSON.stringify(window.breakpoints) )
+        $('#htmlClasses'       ).text( $('HTML').attr('class') )
+        $('#currentBreakpoint' ).text( current )
+        $('#previousBreakpoint').text( previous )
+        
+      })
+
+    </script>
+
+  </body>
+
 </html>
