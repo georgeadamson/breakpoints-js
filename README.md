@@ -6,12 +6,28 @@ Tiny script to sync CSS Media Query Breakpoints to Javascript
 Rudimentary detection of display type using breakpoints defined in the CSS. Store the results in global object variable.
 The advantage of this technique is simply that the breakpoints need only be defined in the css and not duplicated in the JS too.
 
-The files you need are in the /src folder. See /src/breakpoints.scss to understand how this works. Unlike other solutions, this does not rely on pseudo elements or css transition events.
+The files you need are in the /src folder. See /src/breakpoints.scss to understand how this works. Unlike other solutions, this does not rely on pseudo elements or css transition events. If you also include the javascript in your project you can test things like this: window.breakpoints.medium === true
 
-Eg: If you include the javascript in your project you can test things like this: window.breakpoints.medium === true
-
-IMPORTANT: Must be used with breakpoints.scss.
-           Use with respond.js to use this Media Query technique in IE6-8 etc.
+Note: Use with respond.js to make this Media Query technique work in IE6-8 etc.
 
 By George Adamson - https://github.com/georgeadamson/breakpoints-js
 
+Sample usage: (with breakpoints.js)
+```javascript
+<link rel="stylesheet" href="breakpoints.css"/>
+<script src="breakpoints.min.js"></script>
+<script>
+  var currentDisplayType = window.breakpoints.current                  // Eg: "large"
+  if( window.breakpoints.medium ) { ... }
+  $(window).on('breakpoint', function( currentBreakpoint, previousBreakpoint ){ ... } )
+</script>
+```
+
+Sample usage: (without breakpoints.js)
+```javascript
+<link rel="stylesheet" href="breakpoints.css">
+<script>
+  var currentDisplayType = $('HEAD').css('fontFamily')                 // Eg: "large"
+  var allDisplayTypes    = $('HEAD *').css('fontFamily').split(/,\s*/) // Eg: ["defaultbreakpoint", "small", "medium", "large"]
+</script>
+```
