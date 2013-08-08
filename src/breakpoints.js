@@ -1,9 +1,6 @@
 
-// Rudimentary detection of display type using breakpoints defined in the CSS. Store the results in global object variable.
-// The advantage of this technique is simply that the breakpoints don't have to be defined and duplicated in the JS too.
-// Eg: window.breakpoints.phone === true
-// IMPORTANT: Must be used with breakpoints.scss.
-//            Use with respond.js to use this Media Query technique in IE6-8 etc.
+// Rudimentary detection of display type using breakpoints defined in the CSS.
+// The JS will store the results in global breakpoints variable and raise a breakpoint event whenever they change.
 // By George Adamson - https://github.com/georgeadamson/breakpoints-js
 
 ;(function( window, undefined ){
@@ -20,6 +17,11 @@
       factory( jQuery );
 
   })(function( $ ) {
+
+    // The advantage of this technique is simply that the breakpoints need only be defined in the css and not duplicated in the JS too.
+    // Eg: window.breakpoints.phone === true
+    // IMPORTANT: Must be used with breakpoints.scss.
+    //            Use with respond.js to use this Media Query technique in IE6-8 etc.
 
     var moduleName     = 'breakpoints'
 
