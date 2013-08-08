@@ -8,7 +8,8 @@ If you choose to include the breakpoints.js in your project you can test things 
 You define the names of your breakpoints in your CSS.
 
 Rudimentary detection of display type using breakpoints defined in the CSS. 
-The JS will store the results in global *breakpoints* variableThe JS will store the results in global breakpoints variable and raise a breakpoint event whenever they change. 
+Using media queries, the name of the current breakpoint is passed as a css attribute on the &lt;head&gt; element.
+The JS will store the results in global *breakpoints* variable and raise a breakpoint event whenever they change. 
 The advantage of this technique is simply that the breakpoints need only be defined in the css and not duplicated in the JS too.
 
 The files you need are in the /src folder. See /src/breakpoints.scss to understand how this works. Unlike other solutions, this does not rely on pseudo elements or css transition events. 
