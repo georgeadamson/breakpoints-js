@@ -37,4 +37,4 @@ Sample usage: (with breakpoints.css only)
 The files you need are in the /src folder. See /src/breakpoints.scss to understand how this works. Unlike other solutions, this does not rely on pseudo elements or css transition events. 
 Note: Use with *respond.js* to make this Media Query technique work in IE6-8 etc.
 
-By George Adamson - https://github.com/georgeadamson/breakpoints-js
+By George Adamson - https://twitter.com/georgeadamson - https://github.com/georgeadamson/breakpoints-js
