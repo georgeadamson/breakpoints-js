@@ -1,9 +1,9 @@
 breakpoints-js
 ==============
 
-Tiny script to sync CSS Media Query Breakpoints to Javascript.
+Tiny css & script to sync CSS Media Query Breakpoints to Javascript.
 
-If you also include the breakpoints.js in your project you can test things like this window.breakpoints.small === true and bind to a custom *breakpoint* event.
+If you choose to include the breakpoints.js in your project you can test things like this window.breakpoints.small === true and bind to a custom *breakpoint* event.
 
 You define the names of your breakpoints in your CSS.
 
@@ -13,9 +13,7 @@ The advantage of this technique is simply that the breakpoints need only be defi
 The files you need are in the /src folder. See /src/breakpoints.scss to understand how this works. Unlike other solutions, this does not rely on pseudo elements or css transition events. 
 Note: Use with *respond.js* to make this Media Query technique work in IE6-8 etc.
 
-By George Adamson - https://github.com/georgeadamson/breakpoints-js
-
-Sample usage: (with breakpoints.js)
+Sample usage: (with breakpoints.css & breakpoints.js)
 ```javascript
 <link rel="stylesheet" href="breakpoints.css"/>
 <script src="breakpoints.min.js"></script>
@@ -26,7 +24,7 @@ Sample usage: (with breakpoints.js)
 </script>
 ```
 
-Sample usage: (without breakpoints.js)
+Sample usage: (with breakpoints.css only)
 ```javascript
 <link rel="stylesheet" href="breakpoints.css">
 <script>
@@ -34,3 +32,5 @@ Sample usage: (without breakpoints.js)
   var allDisplayTypes    = $('HEAD *').css('fontFamily').split(/,\s*/) // Eg: ["defaultbreakpoint", "small", "medium", "large"]
 </script>
 ```
+
+By George Adamson - https://github.com/georgeadamson/breakpoints-js
