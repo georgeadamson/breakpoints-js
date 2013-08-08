@@ -17,6 +17,7 @@ Note: Use with *respond.js* to make this Media Query technique work in IE6-8 etc
 Sample usage: (with breakpoints.css & breakpoints.js)
 ```javascript
 <link rel="stylesheet" href="breakpoints.css"/>
+<script src="jquery.min.js"></script>
 <script src="breakpoints.min.js"></script>
 <script>
   var currentDisplayType = window.breakpoints.current                  // Eg: "large"
@@ -28,6 +29,7 @@ Sample usage: (with breakpoints.css & breakpoints.js)
 Sample usage: (with breakpoints.css only)
 ```javascript
 <link rel="stylesheet" href="breakpoints.css">
+<script src="jquery.min.js"></script>
 <script>
   var currentDisplayType = $('HEAD').css('fontFamily')                 // Eg: "large"
   var allDisplayTypes    = $('HEAD *').css('fontFamily').split(/,\s*/) // Eg: ["defaultbreakpoint", "small", "medium", "large"]
