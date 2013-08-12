@@ -1,6 +1,6 @@
 
-// Rudimentary detection of display type using breakpoints defined in the CSS.
-// By George Adamson - https://github.com/georgeadamson/breakpoints-js
+// CSS & JS to sync CSS Media Query Breakpoints to Javascript.
+// George Adamson - https://github.com/georgeadamson/breakpoints-js
 
 (function (factory) {
 
@@ -21,33 +21,38 @@
   /* jshint laxcomma:true, asi:true, debug:true, curly:false, camelcase:true, browser:true */
   /* global define, console */
 
-  var moduleName     = 'breakpoints'
+  // This will result in a global window.breakpoints property:
+  var moduleName      = 'breakpoints'
+
+  // Name of custom event to raise whenever breakpoints change as a result of the css media queries:
+    , breakpointEvent = 'breakpoint'
 
   // Define a global variable on which to define custom display-size properties: (Eg: breakpoints.phone = true & breakpoints.tablet = false)
-    , breakpoints    = window[moduleName] || ( window[moduleName] = {} )
+    , breakpoints     = window[moduleName] || ( window[moduleName] = {} )
 
   // Flag for tracking changes to the currently detected breakpoint:
-    , previous       = null
-                     
-    , stylesMissing  = 'missing-breakpoints-stylesheet'
+    , previous        = null
 
-    // Helper to read custom font from specified element:
-    , getFontOf      = function( elem ){
+  // Fake font name to help highlight when the breakpoints stylesheet is missing:
+    , stylesMissing   = 'missingBreakpointsStylesheet'
+
+  // Helper to read custom font from specified element: (Assumes default serif & sans-serif fonts are not the names of your custom breakpoints)
+    , getFontOf       = function( elem ){
       var font = $(elem).css('fontFamily')
-      return ( !font || /^(sans-)?serif/.test(font) ) ? '' : font
+      return ( !font || /^(sans-)?serif|Times|Arial|Helvetica/.test(font) ) ? stylesMissing : font
     }
 
   // Helper to build a hash of breakpoint names. Used by detectBreakpoint(). The currently detected display will have a true value, the others false:
-    , mapBreakpoints = function( names, current ){
-        var name, result = { current: current }, total = names.length, i = 0
-        for( ; i<total; i++ ){ name = names[i]; result[name] = ( name === current ) }
+    , mapBreakpoints  = function( names, current ){
+        var name, result = { current: current }, count = names.length, i = 0
+        for( ; i<count; i++ ){ name = names[i]; result[name] = ( name === current ) }
         return result
       }
 
   // Detect iframe because we may need to respond to iframe-resize events, even on a device with fixed browser display size:
-    , inIframe       = window.top && window.top !== window
+    , inIframe        = window.top && top !== window
 
-    , resizeEvent    = ( 'onorientationchange' in window ) ? 'orientationchange' + ( inIframe ? 'resize' : '' ) : 'resize'
+    , resizeEvent     = ( 'onorientationchange' in window ) ? 'orientationchange' + ( inIframe ? 'resize' : '' ) : 'resize'
 
 
 
@@ -91,7 +96,7 @@
       }
 
       // Raise custom BREAKPOINT changed event: (If you need to ignore initial firing of this during page load, "previous" will be null the first time this fires)
-      $(window).trigger( 'breakpoint', [ current, previous ] )
+      $(window).trigger( breakpointEvent, [ current, previous ] )
       previous = current
 
     }
