@@ -2,7 +2,7 @@
 // CSS & JS to sync CSS Media Query Breakpoints to Javascript.
 // George Adamson - https://github.com/georgeadamson/breakpoints-js
 
-(function (factory) {
+;(function (factory) {
 
   // Register as an anonymous AMD module if relevant, otherwise assume oldskool browser globals:
   if (typeof window.define === "function" && define.amd)
