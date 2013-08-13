@@ -59,9 +59,11 @@
   // Define a .device detection object now and whenever display or orientation changes:
   ;(function( detectBreakpoint ){
 
+    var bind = $.fn.on ? 'on' : 'bind'
+
     detectBreakpoint()
 
-    $(window).on( resizeEvent, detectBreakpoint )
+    $(window)[bind]( resizeEvent, detectBreakpoint )
 
   })(function(){
 
