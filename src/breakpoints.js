@@ -98,7 +98,32 @@
       }
 
       // Raise custom BREAKPOINT changed event: (If you need to ignore initial firing of this during page load, "previous" will be null the first time this fires)
-      $(window).trigger( breakpointEvent, [ current, previous ] )
+      // WORK IN PROGRESS: Refactoring to raise event natively instead of relying on jQuery.
+      // if( window.CustomEvent ){
+      // 
+      //   // Raise custom event natively:
+      //   e = new CustomEvent( breakpointEvent, { currentBreakpoint: current, previousBreakpoint: previous })
+      //   window.dispatchEvent(e)
+      // 
+      // }
+      // else if( document.createEvent ){
+      // 
+      //   // Raise custom event natively using oldskool syntax:
+      //   e = document.createEvent('Event')
+      //   e.initEvent( breakpointEvent, true, true )
+      //   window.dispatchEvent(e)
+      // 
+      // }
+      // else{
+      // 
+      //   // Raise event using jQuery:
+      //   $ = $ || window.jQuery || window.$
+      //   if( $ ){
+             $(window).trigger( breakpointEvent, [ current, previous ] )
+      //   }
+      // 
+      // }
+
       previous = current
 
     }
