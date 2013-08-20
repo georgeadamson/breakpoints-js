@@ -1,8 +1,7 @@
-
 // Up to you:
 $smallDeviceMaxWidth  : 40em;
-$mediumDeviceMaxWidth : 80em;
-$largeDeviceMaxWidth  : 100em;
+$mediumDeviceMaxWidth : 60em;
+$largeDeviceMaxWidth  : 90em;
 
 // Rudimentary detection of display type using breakpoints defined in the CSS. Store the results in global object variable.
 // The advantage of this technique is simply that the breakpoints don't have to be defined and duplicated in the JS too.
@@ -24,5 +23,12 @@ HEAD { font-family: 'defaultbreakpoint'; }
 /* Otherwise when media-queries are supported: */ 
 @media (min-width: $largeDeviceMaxWidth ) { HEAD { font-family: "giant";  } }    // Eg: Large desktop
 @media (max-width: $largeDeviceMaxWidth ) { HEAD { font-family: "large";  } }    // Eg: Small desktop
-@media (max-width: $mediumDeviceMaxWidth) { HEAD { font-family: "medium"; } }    // Eg: Tablet
-@media (max-width: $smallDeviceMaxWidth ) { HEAD { font-family: "small";  } }    // Eg: Phone
+@media (max-width: $mediumDeviceMaxWidth) { HEAD { font-family: "medium"; } }    // Eg: Tablet / Small laptop
+@media (max-width: $smallDeviceMaxWidth ) { HEAD { font-family: "small";  } }    // Eg: Handheld
+
+// Or, of you prefer to use more specific breakpoint names:
+// HEAD * { font-family: "defaultbreakpoint","phone","tablet","desktop","widescreen"; }
+// @media (min-width: $largeDeviceMaxWidth ) { HEAD { font-family: "widescreen";  } }
+// @media (max-width: $largeDeviceMaxWidth ) { HEAD { font-family: "desktop";  } }
+// @media (max-width: $mediumDeviceMaxWidth) { HEAD { font-family: "tablet"; } }
+// @media (max-width: $smallDeviceMaxWidth ) { HEAD { font-family: "phone";  } }
