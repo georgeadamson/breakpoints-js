@@ -1,4 +1,3 @@
-
 // CSS & JS to sync CSS Media Query Breakpoints to Javascript.
 // George Adamson - https://github.com/georgeadamson/breakpoints-js
 
@@ -52,7 +51,7 @@
   // Detect iframe because we may need to respond to iframe-resize events, even on a device with fixed browser display size:
     , inIframe        = window.top && top !== window
 
-    , resizeEvent     = ( 'onorientationchange' in window ) ? 'orientationchange' + ( inIframe ? 'resize' : '' ) : 'resize'
+    , resizeEvent     = ( 'onorientationchange' in window && !inIframe ) ? 'orientationchange' : 'resize'
 
 
 
