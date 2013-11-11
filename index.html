@@ -1,17 +1,22 @@
 <html>
 
   <head>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+    <!-- We only need this one for this demo: -->
+    <link href="lib/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+
     <!-- You need this one to define your breakpoints: -->
     <link rel="stylesheet" href="css/breakpoints.css">
-    <!-- We only need this one for this demo: -->
-    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+
   </head>
   
   <body>
     
     <h1>Breakpoints.js Demo</h1>
 
-    <small>Resize your browser to see these values change</small>
+    <small>Resize your browser or rotate your device to see these values change</small>
 
     <div class="well">
 
@@ -20,25 +25,29 @@
       <p>These breakpoints are defined in the CSS: <em id="cssBreakpoints">Dunno yet</em><p>
       <p>The window.breakpoints property looks like this: <em id="breakpointsObject">Dunno yet</em><p>
       <p>These classes have been added to the &lt;html&gt; element: &quot;<em id="htmlClasses">Dunno yet</em>&quot;<p>
+      <p>DPR detected: &quot;<em id="currentDpr">Dunno yet</em>&quot;<p>
+      <p>Previous DPR: &quot;<em id="previousDpr">Dunno yet</em>&quot;<p>
   
     </div>
 
     <!-- You need these if you want to use the breakpoints object or the breakpoint event: -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="lib/jquery.min.js"></script>
     <script src="src/breakpoints.min.js"></script>
     
     <!-- We only need this for the demo in old IE: -->
-    <!--[if lt IE 8]><script src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.min.js"></script><![endif]-->
+    <!--[if lt IE 8]><script src="lib/json2.min.js"></script><![endif]-->
 
     <script>
 
       // Initialise fields when page is ready:
       $(function(){
 
-        $('#cssBreakpoints'   ).text( $('HEAD *').css('fontFamily') )
-        $('#breakpointsObject').text( JSON.stringify(window.breakpoints) )
+        $('#cssBreakpoints'   ).text( $('HEAD LINK').css('fontFamily') )
+        $('#breakpointsObject').html( JSON.stringify(window.breakpoints).replace(/,/g,', ') )
         $('#htmlClasses'      ).text( $('HTML').attr('class') )
         $('#currentBreakpoint').text( window.breakpoints.current )
+        $('#currentDpr'       ).text( $('HEAD #dpr').css('fontFamily') )
+        $('#previousDpr'      ).text( window.breakpoints.previousDpr )
 
       })
 
@@ -47,11 +56,13 @@
 
         if( window.console ){ console.log( e, current, previous ) }
 
-        $('#breakpointsObject' ).text( JSON.stringify(window.breakpoints) )
+        $('#breakpointsObject' ).text( JSON.stringify(window.breakpoints).replace(/,/g,', ') )
         $('#htmlClasses'       ).text( $('HTML').attr('class') )
-        $('#currentBreakpoint' ).text( current )
-        $('#previousBreakpoint').text( previous )
-        
+        $('#currentBreakpoint' ).text( window.breakpoints.current )
+        $('#previousBreakpoint').text( window.breakpoints.previous )
+        $('#currentDpr'        ).text( $('HEAD #dpr').css('fontFamily') )
+        $('#previousDpr'       ).text( window.breakpoints.previousDpr )
+
       })
 
     </script>
