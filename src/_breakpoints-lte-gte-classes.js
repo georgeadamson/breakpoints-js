@@ -3,8 +3,10 @@
 
 ;(function( updateClassNames ){
 
+  var bind = $.fn.on ? 'on' : 'bind'
+
   updateClassNames()
-  $(window).on( 'breakpoint', updateClassNames )
+  $(window)[bind]( 'breakpoint', updateClassNames )
 
 })( function(){ // updateClassNames()
 

@@ -5,9 +5,11 @@
 
 ;(function( testBreakpoint ){
 
+  var bind = $.fn.on ? 'on' : 'bind'
+
   testBreakpoint()
 
-  $(window).on( 'breakpoint', testBreakpoint )
+  $(window)[bind]( 'breakpoint', testBreakpoint )
 
 })( function(){
 
@@ -48,13 +50,13 @@
   names     = expectedClassNames[current] || ''
   fails     = $.map( names.split(' '), function(cls){ return ( !cls || root.is( '.' + cls ) ) ? undefined : cls })
   logOrWarn = fails.length ? 'warn' : 'log'
-  if( console[logOrWarn] ) console[logOrWarn]( fails.length ? 'FAIL:' : 'PASS:', 'Expected classes:', fails.length ? fails : names || 'none' )
+  if( console[logOrWarn] ) console[logOrWarn]( fails.length ? 'FAIL:' : 'PASS:', 'Expected breakpoint classes:', fails.length ? fails : names || 'none' )
   
   
   // Test for invalid breakpoint class names at current breakpoint:
   names     = unwantedClassNames[current] || ''
   fails     = $.map( names.split(' '), function(cls){ return ( !cls || root.is( ':not(.' + cls + ')' ) ) ? undefined : cls })
   logOrWarn = fails.length ? 'warn' : 'log'
-  if( console[logOrWarn] ) console[logOrWarn]( fails.length ? 'FAIL:' : 'PASS:', 'Unexpected classes:', fails.length ? fails : names || 'none' )
+  if( console[logOrWarn] ) console[logOrWarn]( fails.length ? 'FAIL:' : 'PASS:', 'Unexpected breakpoint classes:', fails.length ? fails : names || 'none' )
 
 })
