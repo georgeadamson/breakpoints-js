@@ -37,16 +37,24 @@
     , pass
     , names
     , fails
+    , logOrWarn
+
+
+  // Bail out if browser does not support console:
+  if( !window.console ) return
+
 
   // Test for valid breakpoint class names at current breakpoint:
-  names = expectedClassNames[current] || ''
-  fails = $.map( names.split(' '), function(cls){ return ( !cls || root.is( '.' + cls ) ) ? undefined : cls })
-  console[ fails.length ? 'warn' : 'log' ]( fails.length ? 'FAIL:' : 'PASS:', 'Expected classes:', fails.length ? fails : names || 'none' )
+  names     = expectedClassNames[current] || ''
+  fails     = $.map( names.split(' '), function(cls){ return ( !cls || root.is( '.' + cls ) ) ? undefined : cls })
+  logOrWarn = fails.length ? 'warn' : 'log'
+  if( console[logOrWarn] ) console[logOrWarn]( fails.length ? 'FAIL:' : 'PASS:', 'Expected classes:', fails.length ? fails : names || 'none' )
   
   
   // Test for invalid breakpoint class names at current breakpoint:
-  names = unwantedClassNames[current] || ''
-  fails = $.map( names.split(' '), function(cls){ return ( !cls || root.is( ':not(.' + cls + ')' ) ) ? undefined : cls })
-  console[ fails.length ? 'warn' : 'log' ]( fails.length ? 'FAIL:' : 'PASS:', 'Unexpected classes:', fails.length ? fails : names || 'none' )
+  names     = unwantedClassNames[current] || ''
+  fails     = $.map( names.split(' '), function(cls){ return ( !cls || root.is( ':not(.' + cls + ')' ) ) ? undefined : cls })
+  logOrWarn = fails.length ? 'warn' : 'log'
+  if( console[logOrWarn] ) console[logOrWarn]( fails.length ? 'FAIL:' : 'PASS:', 'Unexpected classes:', fails.length ? fails : names || 'none' )
 
 })
