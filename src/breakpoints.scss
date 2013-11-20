@@ -33,7 +33,7 @@ $featurephoneDeviceMaxWidth: 20em;
 
 // HEAD * { font-family: "defaultbreakpoint","small","medium","large","giant"; }
 // or
-HEAD * { font-family: "defaultbreakpoint","featurephone","phone","tablet","desktop","widescreen"; }
+HEAD * { font-family: "defaultbreakpoint","phone","tablet","desktop","widescreen"; }
 
 
 /* When media-queries not supported: */
@@ -54,4 +54,3 @@ HEAD { font-family: 'defaultbreakpoint'; }
 @media (max-width: $desktopDeviceMaxWidth )      { HEAD { font-family: "desktop";  } }
 @media (max-width: $tabletDeviceMaxWidth)        { HEAD { font-family: "tablet"; } }
 @media (max-width: $phoneDeviceMaxWidth )        { HEAD { font-family: "phone";  } }
-@media (max-width: $featurephoneDeviceMaxWidth ) { HEAD { font-family: "featurephone";  } }

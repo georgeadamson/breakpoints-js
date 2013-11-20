@@ -1,5 +1,5 @@
 /* Define the names of all our breakpoints in the HEAD element: (In ascending order, beginning with the default/no-breakpoints name) */
-HEAD * { font-family: "defaultbreakpoint","featurephone","phone","tablet","desktop","widescreen"; }
+HEAD * { font-family: "defaultbreakpoint","phone","tablet","desktop","widescreen"; }
 
 /* When media-queries not supported: */
 HEAD { font-family: 'defaultbreakpoint'; }
@@ -9,4 +9,3 @@ HEAD { font-family: 'defaultbreakpoint'; }
 @media (max-width: 80em) { HEAD { font-family: "desktop"; } }
 @media (max-width: 60em) { HEAD { font-family: "tablet"; } }
 @media (max-width: 40em) { HEAD { font-family: "phone"; } }
-@media (max-width: 20em) { HEAD { font-family: "featurephone"; } }

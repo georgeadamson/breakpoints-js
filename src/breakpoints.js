@@ -33,7 +33,7 @@
   // @codekit-append "_breakpoints-lte-gte-classes.js"
 
   // Only include this file in development environment:
-  //  codekit-append "_breakpoints-tests.js"
+  // @codekit-append "_breakpoints-tests.js"
 
 
   // This will result in a global window.breakpoints property:

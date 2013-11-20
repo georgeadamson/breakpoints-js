@@ -16,6 +16,8 @@
   var currentBreakpoint = window.breakpoints.current
     , breakpointNames   = window.breakpoints.names
     , i                 = breakpointNames.length
+    , smallest          = 1     // Index of smallest breakpoint in the breakpointNames array.
+    , largest           = i - 1 // Index of largest breakpoint in the breakpointNames array.
     , oldClasses        = []
     , newClasses        = []
     , currentIdx        = 0
@@ -34,10 +36,13 @@
 
     newClasses.push( currentIdx >= i ? gtePrefix + name : ltePrefix + name )
 
-    if( name === currentBreakpoint )
-      newClasses.push( ltePrefix + name )
-    else
+    if( name === currentBreakpoint ){
+      // Skip lte-largest and gte-smallest because they're pointless:
+      ( i === largest  ? oldClasses : newClasses ).push( ltePrefix + name );
+      ( i === smallest ? oldClasses : newClasses ).push( gtePrefix + name )
+    }else{
       oldClasses.push( currentIdx <= i ? gtePrefix + name : ltePrefix + name )
+    }
 
   }
 
