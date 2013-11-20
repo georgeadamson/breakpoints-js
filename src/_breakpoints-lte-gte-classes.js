@@ -36,10 +36,14 @@
 
     newClasses.push( currentIdx >= i ? gtePrefix + name : ltePrefix + name )
 
+    // Explicity exclude lte-widescreen (lte largest) and gte-phone (gte smallest) because they're pointless:
+    if( i === largest  ) oldClasses.push( ltePrefix + name )
+    if( i === smallest ) oldClasses.push( gtePrefix + name )
+
     if( name === currentBreakpoint ){
       // Skip lte-largest and gte-smallest because they're pointless:
-      ( i === largest  ? oldClasses : newClasses ).push( ltePrefix + name );
-      ( i === smallest ? oldClasses : newClasses ).push( gtePrefix + name )
+      if( i < largest  ) newClasses.push( ltePrefix + name );
+      if( i > smallest ) newClasses.push( gtePrefix + name )
     }else{
       oldClasses.push( currentIdx <= i ? gtePrefix + name : ltePrefix + name )
     }

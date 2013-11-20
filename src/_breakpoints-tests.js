@@ -16,23 +16,23 @@
   // jshint laxcomma:true, asi:true, debug:true, curly:false, camelcase:false, browser:true
   /* global console */
 
-  // Note: We explicity skip lte-widescreen (lte largest) and gte-phone (gte smallest) because they're pointless.
+  // Note: We explicity do not expect to see lte-widescreen (lte largest) and gte-phone (gte smallest) because they're pointless.
 
   var expectedClassNames = {
 
-      phone      : 'phone no-tablet no-desktop no-widescreen lt-tablet lt-desktop lt-widescreen lte-phone lte-tablet lte-desktop lte-widescreen'
-    , tablet     : 'no-phone tablet no-desktop no-widescreen gt-phone lt-desktop lt-widescreen gte-phone gte-tablet lte-tablet lte-desktop lte-widescreen'
-    , desktop    : 'no-phone no-tablet desktop no-widescreen gt-phone gt-tablet lt-widescreen gte-phone gte-tablet gte-desktop lte-desktop lte-widescreen'
-    , widescreen : 'no-phone no-tablet no-desktop widescreen gt-phone gt-tablet gt-desktop gte-phone gte-tablet gte-desktop gte-widescreen'
+      phone      : 'phone no-tablet no-desktop no-widescreen lt-tablet lt-desktop lt-widescreen lte-phone lte-tablet lte-desktop'
+    , tablet     : 'no-phone tablet no-desktop no-widescreen gt-phone lt-desktop lt-widescreen gte-tablet lte-tablet lte-desktop'
+    , desktop    : 'no-phone no-tablet desktop no-widescreen gt-phone gt-tablet lt-widescreen gte-tablet gte-desktop lte-desktop'
+    , widescreen : 'no-phone no-tablet no-desktop widescreen gt-phone gt-tablet gt-desktop gte-tablet gte-desktop gte-widescreen'
 
   }
 
   var unwantedClassNames = {
 
-      phone      : 'no-phone tablet desktop widescreen lt-phone gt-phone gt-tablet gt-desktop gt-widescreen gte-tablet gte-tablet gte-desktop gte-widescreen gte-phone'
-    , tablet     : 'phone no-tablet desktop widescreen lt-phone lt-tablet gt-tablet gt-desktop gt-widescreen lte-phone gte-desktop gte-widescreen'
-    , desktop    : 'phone tablet no-desktop widescreen lt-phone lt-tablet lt-desktop gt-desktop gt-widescreen lte-phone lte-tablet gte-widescreen'
-    , widescreen : 'phone tablet desktop no-widescreen lt-phone lt-tablet lt-desktop lt-widescreen lte-phone lte-tablet lte-desktop lte-widescreen'
+      phone      : 'no-phone tablet desktop widescreen lt-phone gt-phone gt-tablet gt-desktop gt-widescreen gte-phone gte-tablet gte-tablet gte-desktop gte-widescreen lte-widescreen'
+    , tablet     : 'phone no-tablet desktop widescreen lt-phone lt-tablet gt-tablet gt-desktop gt-widescreen gte-phone lte-phone gte-desktop gte-widescreen lte-widescreen'
+    , desktop    : 'phone tablet no-desktop widescreen lt-phone lt-tablet lt-desktop gt-desktop gt-widescreen lte-phone gte-phone lte-tablet gte-widescreen lte-widescreen'
+    , widescreen : 'phone tablet desktop no-widescreen lt-phone lt-tablet lt-desktop lt-widescreen lte-phone gte-phone lte-tablet lte-desktop lte-widescreen'
 
   }
 
@@ -52,13 +52,13 @@
   names     = expectedClassNames[current] || ''
   fails     = $.map( names.split(' '), function(cls){ return ( !cls || root.is( '.' + cls ) ) ? undefined : cls })
   logOrWarn = fails.length ? 'warn' : 'log'
-  if( console[logOrWarn] ) console[logOrWarn]( fails.length ? 'FAIL:' : 'PASS:', 'Expected breakpoint classes:', fails.length ? fails : names || 'none' )
+  console[logOrWarn]( fails.length ? 'FAIL:' : 'PASS:', 'Expected breakpoint classes:', fails.length ? fails : names || 'none' )
   
   
   // Test for invalid breakpoint class names at current breakpoint:
   names     = unwantedClassNames[current] || ''
   fails     = $.map( names.split(' '), function(cls){ return ( !cls || root.is( ':not(.' + cls + ')' ) ) ? undefined : cls })
   logOrWarn = fails.length ? 'warn' : 'log'
-  if( console[logOrWarn] ) console[logOrWarn]( fails.length ? 'FAIL:' : 'PASS:', 'Unexpected breakpoint classes:', fails.length ? fails : names || 'none' )
+  console[logOrWarn]( fails.length ? 'FAIL:' : 'PASS:', 'Unexpected breakpoint classes:', fails.length ? fails : names || 'none' )
 
 })
