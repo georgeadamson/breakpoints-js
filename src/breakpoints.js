@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-// CSS & JS to sync CSS Media Query Breakpoints to Javascript.
-// George Adamson - https://github.com/georgeadamson/breakpoints-js
-
-=======
 /*!
  * Sync CSS Mediaquery Breakpoints to Javascript. Use with breakpoints.css.
  * George Adamson - https://github.com/georgeadamson/breakpoints-js
  */
->>>>>>> Added support for breakpoint range classnames e.g. gt-tablet
-;(function (factory) {
 
-  var define = window.define
+;(function ( define, factory ) {
 
   // Register as an anonymous AMD module if relevant, otherwise assume old-skool browser globals:
   if (typeof define === "function" && define.amd){
@@ -19,11 +12,7 @@
     factory( jQuery );
   }
 
-})(function( $ ) {
-
-  // v1.0   - Original version. September 2013.
-  // v1.0.1 - Experiments with detecting DPA breakpoints too. Work in progress.
-  // v1.1   - Add breakpoint "range" classes to the <html> element too, to represent "larger than tablet" etc (eg: "gt-tablet"). (Assumes breakpoints are defined in size order in css)
+})( window.define, function($) {
 
   // The JS will store the results in global breakpoints variable and raise a breakpoint event whenever they change.
   // The advantage of this technique is simply that the breakpoints need only be defined in the css and not duplicated in the JS too.
@@ -31,18 +20,35 @@
   // IMPORTANT: Must be used with breakpoints.scss.
   //            Use with respond.js to use this Media Query technique in IE6-8 etc.
 
+  // v1.0   - Original version. September 2013.
+  // v1.0.1 - Experiments with detecting DPA breakpoints too. Work in progress.
+  // v1.1   - Add lt/gt "range" classes to the <html> element too, to represent "greater than tablet" etc (eg: "gt-tablet"). (Assumes breakpoints are defined in size order in css)
+  // v1.2   - Add lte/gte "range" classes to the <html> element too, to represent "greate or equal to tablet" etc (eg: "gte-tablet"). (Assumes breakpoints are defined in size order in css)
+
   /* jshint laxcomma:true, asi:true, debug:true, curly:false, camelcase:true, browser:true */
   /* global define, console */
+ 
+ 
+  // @codekit-append "_breakpoints-lt-gt-classes.js"
+  // @codekit-append "_breakpoints-lte-gte-classes.js"
+
+  // Only include this file in development environment:
+  //  codekit-append "_breakpoints-tests.js"
+
 
   // This will result in a global window.breakpoints property:
   var moduleName        = 'breakpoints'
+
+  , doDprClasses       = false // <-- Not ready for prime time.
+  , doLtGtClasses      = true
+  , doLteGteClasses    = true
 
   // Keep a reference to regularly used elements:
     , win               = window
     , doc               = document
     , root              = doc.documentElement
-    , breakpointEl      = doc.getElementsByTagName('head')[0]
-    , breakpointsEl     = 'LINK'
+    , breakpointEl      = doc.getElementsByTagName('head')[0] // This element's css tells us the current breakpoint name.
+    , breakpointsEl     = 'LINK'                              // This element's css tells us the names of all the breakpoints.
     , dprEl             = doc.getElementById('dpr') || $('<meta id=dpr>').appendTo( breakpointEl )[0]
 
   // Define a global variable on which to define custom display-size properties: (Eg: breakpoints.phone = true & breakpoints.tablet = false)
@@ -52,14 +58,16 @@
     , breakpointEvent   = 'breakpoint'
 
   // Less-than & Greater-than prefixes to prepend to breakpoint names to form the breakpoint range names. 
+    , noPrefix          = 'no-'
     , ltPrefix          = 'lt-'
     , gtPrefix          = 'gt-'
-    , noPrefix          = 'no-'
+    , ltePrefix         = 'lte-'
+    , gtePrefix         = 'gte-'
 
   // Fake font name to help highlight when the breakpoints stylesheet is missing:
     , stylesMissing     = noPrefix + moduleName + '-stylesheet'
 
-  // Determine which which property will tell us the windo's x & y position: (Hard to read because it is optimised for minification)
+  // Determine which property will tell us the window's x & y position: (Hard to read because it is optimised for minification)
     , screen            = 'screen'
     , screenX           = screen + ( ( screen + 'X' ) in win ? 'X' : 'Left' )   // Use window.screenX or window.screenLeft
     , screenY           = screen + ( ( screen + 'Y' ) in win ? 'Y' : 'Top'  )   // Use window.screenY or window.screenTop
@@ -70,28 +78,24 @@
     , previousPos       = { x: win[screenX], y: win[screenY] }
 
   // Regex to find commas in a css fontFamily and to trim spaces or quotes from a atring:
-    , rComma           = /\s*,\s*/
-    , rTrim            = /^[\s'"]*|[\s'"]*$/g
+    , reComma           = /\s*,\s*/
+    , reTrim            = /^[\s'"]*|[\s'"]*$/g
 
   // Helper to read custom font from specified element: (Assumes common browser default serif & sans-serif fonts are not the names of your custom breakpoints)
-    , getFontOf        = function( elem ){
+    , getFontOf         = function( elem ){
         var font = $(elem).css('fontFamily')
-        return ( !font || /^(sans-)?serif|Times|Arial|Helvetica/.test(font) ) ? stylesMissing : font.replace(rTrim,'')
+        return ( !font || /^serif|sans-serif|times|arial|helvetica/i.test(font) ) ? stylesMissing : font.replace(reTrim,'')
     }
 
-  // Helper to build a hash of breakpoint names. Used by detectBreakpoint(). The currently detected display will have a true value, the others false:
-    , makeHashOf       = function( names, current ){
-        var name, result = { current: current }, count = names.length, i = 0
-        for( ; i<count; i++ ){ name = names[i]; result[name] = ( name === current ) }
+  // Helper to build a hash of breakpoint names. Used by detectBreakpoint(). The currently detected breakpoint will be true, the others false:
+    , buildHashOf       = function( names, current ){
+        var name, result = { current: current }, i = names.length
+        while( --i ){ name = names[i]; result[name] = ( name === current ) }
         return result
     }
 
-<<<<<<< HEAD
-    , resizeEvent     = ( 'onorientationchange' in window && !inIframe ) ? 'orientationchange' : 'resize'
-=======
   // Detect iframe because we may need to respond to iframe-resize events, even on a device with fixed browser display size: (Bit unlikely perhaps? Oh well)
-    , isIframe          = win.top && top !== win
->>>>>>> Added support for breakpoint range classnames e.g. gt-tablet
+    , isIframe          = ( win.top !== win.self )
 
   // Feature-detect which browser event(s) to listen to: (For detecting breakpoint changes)
     , orientationchange = 'orientationchange'
@@ -110,21 +114,24 @@
 
     // For detecting when the window might have been dragged into another display.
     // TODO: Inspect window.devicePixelRatio too
-    setInterval( function(){
+    if( doDprClasses ) setInterval( function(){
+
       var currentPos = { x: win[screenX], y: win[screenY] }
       if( currentPos.x !== previousPos.x || currentPos.y !== previousPos.y ){
         detectBreakpoint( currentPos )
       }
+
     }, 500 )
 
-  })( function(currentPos) { // detectBreakpoint()
+
+  })( function( currentPos ) { // detectBreakpoint()
 
     // Media Queries will set the name of the current breakpoint as a fake fontFamily on the hidden HEAD element. We simply read the corresponding values:
     var $root      = $(root)
-      , current    = getFontOf( breakpointEl ) || stylesMissing                          // Read current breakpoint name: (We expect this to vary depending on which mediaquery is being applied right now)
-      , currentDpr = getFontOf( dprEl )                                                  // Read current dpr name.
-      , names      = getFontOf( $(breakpointEl).children(breakpointsEl) ).split(rComma)  // Derive array of all possible breakpoints defined in css so we can iterate through them: (See detect-display.scss for definition of these values)
-      , detected   = makeHashOf( names, current )                                        // Build a new breakpoints object with a key for each of the breakpoint names defined in the css.
+      , current    = getFontOf( breakpointEl ) || stylesMissing                           // Read current breakpoint name: (We expect this to vary depending on which mediaquery is being applied right now)
+      , currentDpr = doDprClasses && getFontOf( dprEl )                                   // Read current dpr name.
+      , names      = getFontOf( $(breakpointEl).children(breakpointsEl) ).split(reComma)  // Derive array of all possible breakpoints defined in css so we can iterate through them: (See detect-display.scss for definition of these values)
+      , detected   = buildHashOf( names, current )                                        // Build a new breakpoints object with a key for each of the breakpoint names defined in the css.
       , length     = names.length
       , i          = 0
       , name
@@ -137,10 +144,10 @@
 
 
     // Ensure this is falsy if it isn't coordinates: (Because sometime it is an event object, depending how this function was called)
-    currentPos = currentPos && ( 'x' in currentPos ) && currentPos
+    currentPos = doDprClasses && currentPos && ( 'x' in currentPos ) && currentPos
 
 
-    if( current !== previous || currentDpr !== previousDpr || ( currentPos && ( currentPos.x !== previousPos.x || currentPos.y !== previousPos.y ) ) ){
+    if( current !== previous || ( doDprClasses && currentDpr !== previousDpr || ( currentPos && ( currentPos.x !== previousPos.x || currentPos.y !== previousPos.y ) ) ) ){
 
       // Update our global namespace with the current state of each breakpoint:
       for( name in detected ){
@@ -161,15 +168,22 @@
         $root
           .toggleClass(            name,     isCurrent )
           .toggleClass( noPrefix + name,    !isCurrent )
-          //.toggleClass( 'dpr-' + previousDpr, previousDpr === currentDpr ) // Not quite ready for prime time.
+          // Work in progress: Not quite ready for prime time:
+          //.toggleClass( 'dpr-' + previousDpr, previousDpr === currentDpr )
           //.addClass( 'dpr-' + currentDpr )
 
       }
 
       // Make a note of the previous width & dpr breakpoints:
-      if( current    !== previous    ){ breakpoints.previous    = previous;    previous    = current    }
-      if( currentDpr !== previousDpr ){ breakpoints.previousDpr = previousDpr; previousDpr = currentDpr }
-      breakpoints.currentDpr = currentDpr
+      if( current !== previous ){
+        breakpoints.previous = previous;
+        previous             = current
+      }
+
+      if( doDprClasses ){
+        if( currentDpr !== previousDpr ){ breakpoints.previousDpr = previousDpr; previousDpr = currentDpr }
+        breakpoints.currentDpr = currentDpr
+      }
 
       // This is how your own code can react to breakpoint changes:
       triggerBreakpointEvent()
@@ -218,44 +232,5 @@
 
   }
 
-
-  // OPTIONAL: Method to add classes to represent "larger than tablet" etc (eg: "gt-tablet")
-  function reassessRanges(){
-
-    var $root             = $(root)
-      , currentBreakpoint = breakpoints.current
-      , breakpointNames   = breakpoints.names
-      , length            = breakpointNames.length
-      , oldRanges         = []
-      , newRanges         = []
-      , currentIdx        = 99 // Arbitrary large value to keep the loop logic simpler.
-      , i                 = 0
-      , name
-
-    // Clear previous range classes and derive new ones: (Eg: "gt-tablet lt-widescreen" etc)
-    for( ; i < length; i++ ){
-
-      name = breakpointNames[i]
-
-      // Note the index when we happen upon the current breakpoint in the loop.
-      // Otherwise add this breakpoint name to our lists of greater/less-than classes. 
-      if( name === currentBreakpoint )
-        currentIdx = i
-      else if( i > 0 ){
-        oldRanges.push( currentIdx > i ? ltPrefix + name : gtPrefix + name )
-        newRanges.push( currentIdx < i ? ltPrefix + name : gtPrefix + name )
-      }
-
-    }
-
-    $root.removeClass( oldRanges.join(' ') )
-         .addClass(    newRanges.join(' ') )
-
-  }
-
-
-  // OPTIONAL: Add classes to represent "larger than tablet" etc (eg: "gt-tablet")
-  reassessRanges()
-  $(win).on( breakpointEvent, function(e){ reassessRanges() } )
 
 })
