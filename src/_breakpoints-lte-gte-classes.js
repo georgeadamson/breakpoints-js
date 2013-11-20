@@ -17,7 +17,7 @@
     , breakpointNames   = window.breakpoints.names
     , i                 = breakpointNames.length
     , smallest          = 1     // Index of smallest breakpoint in the breakpointNames array.
-    , largest           = i - 1 // Index of largest breakpoint in the breakpointNames array.
+    , largest           = i - 1 // Index of largest  breakpoint in the breakpointNames array.
     , oldClasses        = []
     , newClasses        = []
     , currentIdx        = 0
@@ -26,12 +26,12 @@
     , gtePrefix         = 'gte-'
 
 
-  // Derive names of lt/gt/lte/gte ranges classes to add & remove: (Eg: "gt-tablet lte-widescreen" etc)
+  // Derive names of lte/gte range classes to add & remove: (Eg: "gte-tablet lte-desktop" etc)
   while( --i ){
 
     name = breakpointNames[i]
 
-    // Note the index when we happen upon the current breakpoint in the loop.
+    // Note the index of the current breakpoint when we happen upon it in the loop:
     if( name === currentBreakpoint ) currentIdx = i
 
     newClasses.push( currentIdx >= i ? gtePrefix + name : ltePrefix + name )

@@ -24,12 +24,12 @@
     , gtPrefix          = 'gt-'
 
 
-  // Derive names of lt/gt/lte/gte ranges classes to add & remove: (Eg: "gt-tablet lte-widescreen" etc)
+  // Derive names of lt/gt range classes to add & remove: (Eg: "gt-tablet lt-widescreen" etc)
   while( --i ){
 
     name = breakpointNames[i]
 
-    // Note the index when we happen upon the current breakpoint in the loop.
+    // Note the index of the current breakpoint when we happen upon it in the loop:
     if( name === currentBreakpoint ) currentIdx = i
 
     oldClasses.push( currentIdx > i ? ltPrefix + name : gtPrefix + name )
