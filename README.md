@@ -22,6 +22,12 @@ Sample usage: (with breakpoints.css & breakpoints.js)
   if( window.breakpoints.medium ) { ... }
   $(window).on('breakpoint', function( currentBreakpoint, previousBreakpoint ){ ... } )
 </script>
+
+<style>
+  /* CSS Examples: */
+  .gte-tablet H2 { font-size: 1.2rem; }
+  .large .banner { background-color: blue; }
+</style>
 ```
 
 Sample usage: (with breakpoints.css only)
