@@ -3,9 +3,9 @@ breakpoints-js
 
 Tiny css & script to sync CSS Media Query Breakpoints to Javascript.
 
-If you choose to include the breakpoints.js in your project you can test things like this window.breakpoints.small === true and bind to a custom *breakpoint* event.
+You define the names of your breakpoints in your CSS media queries. JS exposes them as classes on the <html> element.
 
-You define the names of your breakpoints in your CSS.
+If you choose to include the breakpoints.js in your project you can test things like this window.breakpoints.small === true and bind to a custom *breakpoint* event.
 
 Rudimentary detection of display type using breakpoints defined in the CSS. 
 Using media queries, the name of the current breakpoint is passed as a css attribute on the &lt;head&gt; element.
